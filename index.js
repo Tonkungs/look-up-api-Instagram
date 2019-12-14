@@ -1,7 +1,7 @@
 const axios = require('axios');
-
+// https://github.com/technerium-architect/InstagramGraphQ
 const URL_IG = `https://i.instagram.com`
-const USER_IG = 1641230937
+const USER_IG = 44616959 //1641230937 // 44616959 bi
 const QUERY_HASH_TIMELINE = `e769aa130647d2354c40ea6a439bfc08`
 const QUERY_HASH_STORY = `5da4b106f3e821421ea90356bb98d226`
 const toQueryString = object =>
@@ -30,10 +30,10 @@ let LOAD_STORY = {
     "stories_video_dash_manifest": false
   }),
 }
-let URL = `${URL_IG}/graphql/query/${toQueryString(LOAD_STORY)}`
+let URL = `${URL_IG}/graphql/query/${toQueryString(LOAD_TIMELINE)}`
 
 // https://i.instagram.com/graphql/query/?query_hash=e769aa130647d2354c40ea6a439bfc08&variables={"id":1641230937,"first":12,"after":""}
-console.log('searchParams', URL);
+// console.log('searchParams', URL);
 // console.log('URL',URL);
 
 const config = {
@@ -55,26 +55,41 @@ const config = {
 
 
 // // getTimeLine
-// axios(config)
-//   .then(function (response) {
-//     // handle success
-//     // count จำนวน
-//     // page_info บอกว่ามีหน้าต่อไปไหม
-//     // has_next_page  มีไหม
-//     // end_cursor key ขอหน้าต่อไป
-//     let newPhotos = []
-//     response.data.data.user.edge_owner_to_timeline_media.edges.map(item => {
-//       newPhotos.push(item.node.display_url)
-//       // console.log('item =>', );
-//     })
-//     console.log('newPhotos', newPhotos.length);
-//   })
-
-// getStory
 axios(config)
   .then(function (response) {
     // handle success
-    console.log('newPhotos', response.data);
+    // count จำนวน
+    // page_info บอกว่ามีหน้าต่อไปไหม
+    // has_next_page  มีไหม
+    // end_cursor key ขอหน้าต่อไป
+    let newPhotos = []
+    response.data.data.user.edge_owner_to_timeline_media.edges.map(item => {
+      newPhotos.push(item.node.display_url)
+      // console.log('item =>', );
+    })
+    console.log('newPhotos', newPhotos.length);
   })
+
+// getStory
+// axios(config)
+//   .then(function (response) {
+//     // handle success
+//     let newPhotos = []
+//     // response.data.data.reels_media.items.map(item => {
+//     //   // newPhotos.push(item.node.display_url)
+//     //   console.log('item =>',item );
+//     // })
+//     response.data.data.reels_media.map(item => {
+//       item.items.map(item2 => {
+//         let newVdo = item2.video_resources && item2.video_resources.find(item3 => item3.profile === "MAIN")
+//         if (newVdo === undefined) {
+//           newPhotos.push(item2.display_url)
+//         } else {
+//           newPhotos.push(newVdo.src)
+//         }
+//       })
+//     })
+//     console.log('newPhotos', newPhotos);
+//   })
 
 
