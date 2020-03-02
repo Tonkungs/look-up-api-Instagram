@@ -4,6 +4,8 @@ const URL_IG = `https://i.instagram.com`
 const USER_IG = 44616959 //1641230937 // 44616959 bi
 const QUERY_HASH_TIMELINE = `e769aa130647d2354c40ea6a439bfc08`
 const QUERY_HASH_STORY = `5da4b106f3e821421ea90356bb98d226`
+const END_CURSOR = ''
+
 const toQueryString = object =>
   '?' +
   Object.keys(object)
@@ -12,7 +14,7 @@ const toQueryString = object =>
 
 let LOAD_TIMELINE = {
   "query_hash": QUERY_HASH_TIMELINE,
-  "variables": JSON.stringify({ "id": USER_IG, "first": 12, "after": "" }),
+  "variables": JSON.stringify({ "id": USER_IG, "first": 12, "after": END_CURSOR }),
   "keys": JSON.stringify(["edge_owner_to_timeline_media", ["data", "user"]]),
 }
 
@@ -30,8 +32,9 @@ let LOAD_STORY = {
     "stories_video_dash_manifest": false
   }),
 }
-let URL = `${URL_IG}/graphql/query/${toQueryString(LOAD_TIMELINE)}`
-
+// let URL = `${URL_IG}/graphql/query/${toQueryString(LOAD_TIMELINE)}`
+// let URL = `${URL_IG}/graphql/query/${toQueryString(LOAD_STORY)}`
+let URL = `${URL_IG}/api/v1/users/${USER_IG}/info/`
 // https://i.instagram.com/graphql/query/?query_hash=e769aa130647d2354c40ea6a439bfc08&variables={"id":1641230937,"first":12,"after":""}
 // console.log('searchParams', URL);
 // console.log('URL',URL);
@@ -47,28 +50,28 @@ const config = {
   }
 }
 // ============================================
-// axios(config)
-//     .then(function (response) {
-//         // handle success
-//         console.log(response.data.user.hd_profile_pic_url_info.url);
-//     })
+axios(config)
+    .then(function (response) {
+        // handle success
+        console.log(response.data.user.hd_profile_pic_url_info.url);
+    })
 
 
 // // getTimeLine
-axios(config)
-  .then(function (response) {
-    // handle success
-    // count จำนวน
-    // page_info บอกว่ามีหน้าต่อไปไหม
-    // has_next_page  มีไหม
-    // end_cursor key ขอหน้าต่อไป
-    let newPhotos = []
-    response.data.data.user.edge_owner_to_timeline_media.edges.map(item => {
-      newPhotos.push(item.node.display_url)
-      // console.log('item =>', );
-    })
-    console.log('newPhotos', newPhotos.length);
-  })
+// axios(config)
+//   .then(function (response) {
+//     // handle success
+//     // count จำนวน
+//     // page_info บอกว่ามีหน้าต่อไปไหม
+//     // has_next_page  มีไหม
+//     // end_cursor key ขอหน้าต่อไป
+//     let newPhotos = []
+//     response.data.data.user.edge_owner_to_timeline_media.edges.map(item => {
+//       newPhotos.push(item.node.display_url)
+//       // console.log('item =>', );
+//     })
+//     console.log('newPhotos', newPhotos.length);
+//   })
 
 // getStory
 // axios(config)
